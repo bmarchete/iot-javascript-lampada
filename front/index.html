@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #lamp{
+            /* border: 1px solid black; */
+            padding: 50px;
+            box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <img src="" data-state="" id="lamp"></img>
+
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script> 
+    <script>
+        // Initialize Firebase
+        let config = {
+            apiKey: "AIzaSyACd8Q-3bXs2kDrXdFERASbcpwlhp2v10c",
+            authDomain: "iots-441a4.firebaseapp.com",
+            databaseURL: "https://iots-441a4.firebaseio.com",
+            storageBucket: "iots-441a4.appspot.com",
+        };
+        firebase.initializeApp(config);
+        let database = firebase.database();
+
+        let lamp = document.querySelector('#lamp');
+        
+        lamp.addEventListener('click', () => {
+            let val = lamp.getAttribute('data-state');
+            console.log(val);
+            if (val == 'off') {
+                database.ref('led/').set('on');
+            }
+
+            if (val == 'on') {
+                database.ref('led/').set('off');
+            }
+
+        });
+
+    database.ref('led/').on('value', snapshot => {
+        var buttonState = snapshot.val();
+
+        if (buttonState == 'on') {
+            lamp.src = 'on.png';
+            lamp.setAttribute('data-state', 'on');
+        }else{
+            lamp.src = 'off.png';
+            lamp.setAttribute('data-state', 'off');
+
+        }
+    });
+
+    </script>
+    <script>
+        let val = '';
+       
+    </script>
+</body>
+
+</html>
